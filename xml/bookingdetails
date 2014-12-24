@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:background="#42c0fb"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    android:padding="10dp" >
+	
+   
+     <TextView
+        android:id="@+id/tvHeading"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="YOUR BOOKING DETAILS"
+        android:textSize="30dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#ffffff" />
+    
+    <TextView
+        android:id="@+id/tvPatientNamef"
+        android:layout_marginTop="50dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="Shaik Azad"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#ffffff" />
+
+    <TextView
+        android:id="@+id/tvPhoneNumberf"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="2dp"
+        android:gravity="center_horizontal"
+        android:text="000000000"
+        android:textColor="#ffffff" />
+
+    <TextView
+        android:id="@+id/tvSpecialityf"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="2dp"
+        android:gravity="center_horizontal"
+        android:text="Dentist"
+        android:textColor="#ffffff" />
+
+    
+    <TextView
+        android:id="@+id/tvPlacef"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="2dp"
+        android:gravity="center_horizontal"
+        android:text="Bangalore"
+        android:textColor="#ffffff" />
+
+    <TextView
+        android:id="@+id/tvTimef"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="2dp"
+        android:gravity="center_horizontal"
+        android:text="14:00"
+        android:textColor="#ffffff" />
+
+    <TextView
+        android:id="@+id/tvDatef"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="2dp"
+        android:gravity="center_horizontal"
+        android:text="10/12/2014"
+        android:textColor="#ffffff"
+         />
+    
+    <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_marginTop="25dp"
+            android:weightSum="80" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical" >
+
+                <Button
+                    android:id="@+id/bHistory"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginRight="3dp"
+                    android:layout_weight="35"
+                    android:background="@drawable/exit_button"
+                    android:text="HISTORY"
+                    android:textColor="#42c0fb" />
+
+                <Button
+                    android:id="@+id/bExit"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginLeft="3dp"
+                    android:layout_weight="35"
+                    android:background="@drawable/exit_button"
+                    android:text="EXIT"
+                    android:textColor="#42c0fb" />
+            </LinearLayout>
+        </LinearLayout>
+
+</LinearLayout>
