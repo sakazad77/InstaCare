@@ -1,0 +1,66 @@
+package com.shaik.instacare;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ListView;
+
+public class History extends Activity implements OnClickListener {
+
+	Button bExitFromApp;
+	ListView lvEntries;
+	// String[] entries = {"NULL", "biscuit"};
+	ArrayList<String> al = new ArrayList<String>();
+	ArrayAdapter<String> listAdapter;
+	String pname, pphone, pspeciality, pplace, pdate, ptime;
+	String biscuit;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.history);
+		bExitFromApp = (Button) findViewById(R.id.bExitFromApp);
+		bExitFromApp.setOnClickListener(this);
+		lvEntries = (ListView) findViewById(R.id.lvHistory);
+		listAdapter = new ArrayAdapter<String>(History.this,
+				android.R.layout.simple_list_item_1, al);
+		lvEntries.setAdapter(listAdapter);
+		lvEntries.setClickable(true);
+		lvEntries.setEnabled(true);
+		// lvEntries.setOnClickListener(this);
+
+		Bundle getFinalData = getIntent().getExtras();
+		pname = getFinalData.getString("patientnameffinal");
+		pphone = getFinalData.getString("phonenumberffinal");
+		pspeciality = getFinalData.getString("specialityffinal");
+		pplace = getFinalData.getString("placeffinal");
+		pdate = getFinalData.getString("dateffinal");
+		ptime = getFinalData.getString("timeffinal");
+
+		DataBase entry = new DataBase(History.this);
+		entry.open();
+		entry.createEntry(pname, pphone, pspeciality, pdate, ptime, pplace);
+		biscuit = entry.getData();
+		al.add(biscuit);
+		entry.close();
+
+	}
+
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		switch (v.getId()) {
+		case R.id.bExitFromApp:
+			finish();
+			break;
+		}
+	}
+}
