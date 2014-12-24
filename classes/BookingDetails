@@ -1,0 +1,79 @@
+package com.shaik.instacare;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.telephony.SmsManager;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.TextView;
+
+public class BookingDetails extends Activity implements OnClickListener {
+
+	Button bHistory, bExit;
+	TextView tvPatientNamef, tvPhoneNumberf, tvSpecialityf, tvPlacef, tvTimef;
+	TextView tvDatef;
+	String message;
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.bookingdetails);
+		initialize();
+		bHistory.setOnClickListener(this);
+		bExit.setOnClickListener(this);
+		
+		Bundle getfinaldata = getIntent().getExtras();
+		tvPatientNamef.setText(getfinaldata.getString("patientnamefinal"));
+		tvPhoneNumberf.setText(getfinaldata.getString("phonenumberfinal"));
+		tvSpecialityf.setText(getfinaldata.getString("specialityfinal"));
+		tvPlacef.setText(getfinaldata.getString("placefinal"));
+		tvTimef.setText(getfinaldata.getString("timefinal"));
+		tvDatef.setText(getfinaldata.getString("datefinal"));
+		message = "Hello " + tvPatientNamef.getText().toString() 
+				+ " !! You have booked an appointment for " + tvSpecialityf.getText().toString()
+				+ " located at " + tvPlacef.getText().toString()
+				+ " for the date " + tvDatef.getText().toString() 
+				+ " at " + tvTimef.getText().toString() ;
+				
+		SmsManager smsManager = SmsManager.getDefault();
+		smsManager.sendTextMessage(tvPhoneNumberf.getText().toString(), null, message, null, null);
+	}
+
+	private void initialize() {
+		// TODO Auto-generated method stub
+		bHistory = (Button) findViewById(R.id.bHistory);
+		bExit = (Button) findViewById(R.id.bExit);
+		tvPatientNamef = (TextView) findViewById(R.id.tvPatientNamef);
+		tvPhoneNumberf = (TextView) findViewById(R.id.tvPhoneNumberf);
+		tvSpecialityf = (TextView) findViewById(R.id.tvSpecialityf);
+		tvPlacef = (TextView) findViewById(R.id.tvPlacef);
+		tvTimef = (TextView) findViewById(R.id.tvTimef);
+		tvDatef = (TextView) findViewById(R.id.tvDatef);
+	}
+
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		switch (v.getId()) {
+		case R.id.bHistory:
+			Bundle ffinaldata = new Bundle();
+			ffinaldata.putString("patientnameffinal", tvPatientNamef.getText().toString());
+			ffinaldata.putString("phonenumberffinal", tvPhoneNumberf.getText().toString());
+			ffinaldata.putString("placeffinal", tvPlacef.getText().toString());
+			ffinaldata.putString("specialityffinal", tvSpecialityf.getText().toString());
+			ffinaldata.putString("dateffinal", tvDatef.getText().toString());
+			ffinaldata.putString("timeffinal", tvTimef.getText().toString());
+			Intent k = new Intent("com.shaik.instacare.HISTORY");
+			k.putExtras(ffinaldata);
+			startActivity(k);
+			finish();
+			break;
+		case R.id.bExit:
+			finish();
+			break;
+		}
+	}
+}
