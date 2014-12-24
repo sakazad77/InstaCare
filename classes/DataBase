@@ -1,0 +1,116 @@
+package com.shaik.instacare;
+
+import android.annotation.SuppressLint;
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.SQLException;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+
+
+@SuppressLint("Instantiatable")
+public class DataBase {
+	
+
+	public static final String KEY_ROWID = "_id";
+	public static final String KEY_PATIENT_NAME = "patients_name";
+	public static final String KEY_PATIENT_PHONENUMBER = "patients_phonenumber";
+	public static final String KEY_PATIENT_SPECIALITY = "patients_speciality";
+	public static final String KEY_PATIENT_BOOKINGDATE = "patients_bookingdate";
+	public static final String KEY_PATIENT_BOOKINGTIME = "patients_bookingtime";
+	public static final String KEY_PATIENT_PLACE = "patients_place";
+
+	private static final String DATABASE_NAME = "patientsHistory";
+	private static final String DATABASE_TABLE = "patientsTable";
+	private static final int DATABASE_VERSION = 1;
+
+	private DbHelper ourHelper;
+	private final Context ourContext;
+	private SQLiteDatabase ourDatabase;
+	
+	
+	private static class DbHelper extends SQLiteOpenHelper {
+
+		public DbHelper(Context context) {
+			super(context, DATABASE_NAME, null, DATABASE_VERSION);
+			// TODO Auto-generated constructor stub
+		}
+
+		@Override
+		public void onCreate(SQLiteDatabase db) {
+			// TODO Auto-generated method stub
+			db.execSQL("CREATE TABLE " + DATABASE_TABLE + " (" + KEY_ROWID
+					+ " INTEGER PRIMARY KEY AUTOINCREMENT, " + KEY_PATIENT_NAME
+					+ " TEXT NOT NULL, " + KEY_PATIENT_PHONENUMBER 
+					+ " TEXT NOT NULL, " + KEY_PATIENT_SPECIALITY
+					+ " TEXT NOT NULL, " + KEY_PATIENT_BOOKINGDATE
+					+ " TEXT NOT NULL, " + KEY_PATIENT_BOOKINGTIME
+					+ " TEXT NOT NULL, " + KEY_PATIENT_PLACE + " TEXT NOT NULL);");
+
+		}
+
+		@Override
+		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+			// TODO Auto-generated method stub
+			db.execSQL("DROP TABLE IF EXISTS " + DATABASE_TABLE);
+			onCreate(db);
+		}
+	}
+	
+	public DataBase(Context c) {
+		super();
+		ourContext = c;
+	}
+
+	
+	public DataBase open() throws SQLException{
+		ourHelper = new DbHelper(ourContext);
+		ourDatabase = ourHelper.getWritableDatabase();
+		return this;
+	}
+
+	public void close() {
+		ourHelper.close();
+	}
+
+	public long createEntry(String name, String phonenumber, String speciality, String bookingdate,
+			String bookingtime, String place) {
+		// TODO Auto-generated method stub
+		ContentValues cv = new ContentValues();
+		cv.put(KEY_PATIENT_NAME, name);
+		cv.put(KEY_PATIENT_PHONENUMBER, phonenumber);
+		cv.put(KEY_PATIENT_SPECIALITY, speciality);
+		cv.put(KEY_PATIENT_BOOKINGDATE, bookingdate);
+		cv.put(KEY_PATIENT_BOOKINGTIME, bookingtime);
+		cv.put(KEY_PATIENT_PLACE, place);
+		return ourDatabase.insert(DATABASE_TABLE, null, cv);
+	}
+
+	public String getData(){
+		String[] columns = new String[]{KEY_ROWID, KEY_PATIENT_NAME, KEY_PATIENT_PHONENUMBER, 
+				KEY_PATIENT_SPECIALITY, KEY_PATIENT_BOOKINGDATE, KEY_PATIENT_BOOKINGTIME, 
+				KEY_PATIENT_PLACE};
+		Cursor c = ourDatabase.query(DATABASE_TABLE, columns, null, null, null, null, null);
+		String result = "";
+		
+		int iRow = c.getColumnIndex(KEY_ROWID);
+		int iName = c.getColumnIndex(KEY_PATIENT_NAME);
+		int iPhone = c.getColumnIndex(KEY_PATIENT_PHONENUMBER);
+		int iSpeciality = c.getColumnIndex(KEY_PATIENT_SPECIALITY);
+		int iBookingDate = c.getColumnIndex(KEY_PATIENT_BOOKINGDATE);
+		int iBookingTime = c.getColumnIndex(KEY_PATIENT_BOOKINGTIME);
+		int iPlace = c.getColumnIndex(KEY_PATIENT_PLACE);
+		
+		for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()){
+			result = result + c.getString(iRow) + ". " + c.getString(iName) 
+					+ " with phone number " + c.getString(iPhone)
+					+ " has booked for specialist, " + c.getString(iSpeciality)
+					+ " on date  " + c.getString(iBookingDate)
+					+ " at " + c.getString(iBookingTime)
+					+ " in the location " + c.getString(iPlace)
+					+ "." + "\n" + "\n";
+		}
+		return result;
+	}
+}
